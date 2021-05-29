@@ -5,6 +5,6 @@ Dùng thư viện Selenium kết Java để viết kịch bản test sau:
 3. Sau khi chạy test script, kiểm tra kết quả chạy test script trong Test Report JUnit
 
  Btvn: 
- a) viết thêm testcase cho chức năng login
- b) Chạy với chrome và firefox
+ 1. viết thêm testcase cho chức năng login
+ 2. Chạy với chrome và firefox
 
