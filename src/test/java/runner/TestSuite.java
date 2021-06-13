@@ -23,7 +23,7 @@ public class TestSuite {
     }
 
     @Test
-    public void login_thanh_cong(){
+    public void tc_01_login_thanh_cong(){
         login("standard_user","secret_sauce");
         //verify shopping cart is displayed
         WebElement shoppingCart = driver.findElement(By.id("shopping_cart_container"));
@@ -31,11 +31,22 @@ public class TestSuite {
     }
 
     @Test
-    public void login_voi_username_sai(){
+    public void tc_02_login_voi_username_sai(){
         login("wrong_user","secret_sauce");
-        WebElement errorLabel = driver.findElement(By.xpath("//div[@class='login-box']//h3"));
-        Assert.assertEquals("Epic sadface: User name khong hop le"
-                ,errorLabel.getText());
+        compareLabelError("Epic sadface: Username and password do not match any user in this service");
+    }
+
+    @Test
+    public void tc_03_login_user_lock_out() {
+        login("locked_out_user", "secret_sauce");
+        compareLabelError("Epic sadface: Sorry, this user has been locked out.");
+    }
+
+    @Test
+    public void tc_04_login_user_problem() {
+        login("problem_user", "secret_sauce");
+        WebElement elePeekImg = driver.findElement(By.xpath("//div[@class='peek']"));
+        Assert.assertTrue(elePeekImg.isDisplayed());
     }
 
     @After
@@ -51,5 +62,11 @@ public class TestSuite {
         txtUsername.sendKeys(username);
         txtPassword.sendKeys(password);
         btnLogin.click();
+    }
+
+    public void compareLabelError(String textExpected) {
+        WebElement errorLabel = driver.findElement(By.xpath("//div[@class='login-box']//h3"));
+        Assert.assertEquals(textExpected
+                ,errorLabel.getText());
     }
 }
